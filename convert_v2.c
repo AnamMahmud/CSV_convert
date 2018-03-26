@@ -1,11 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+struct Table{
+	char *Property;
+	char *Value;
+	char *Variant_Base;
+	char *Variant_name;
+	char *Semata_Rationale;
+}
+typedef Table;
 char *GetCalRational(char data[1024]){
 	int count;
 	count=2;
 	char *set;
-	//printf("%s\n",data);
 	set=strtok(data,",");
 	while(count--){
 		set=strtok(NULL,",");
@@ -34,35 +41,27 @@ char *GetProperty(char data[1024]){
 	return set;
 
 }
-struct Table{
-	char *Property;
-	char *Value;
-	char *Variant_Base;
-	char *Variant_name;
-	char *Semata_Rationale;
-}
-typedef Table;
-
+static Table TAB[10];
 int main(){
 
-static Table TAB[10];
+
 FILE *File, *FileV2;
 
-//FileV2= fopen("data2.csv","w+");
+int i,j,k;
+i=0;
+j=0;
+k=0;
 
-
-static int i,j,k;
 /*-----------------------*/
 File = fopen("data2.csv","r");
 char data3[1024];
 while(fgets(data3,1024,File)){
-
-	char *set2;
-	//set2=GetProperty(data3);
-	TAB[k].Property=GetProperty(data3);
-	printf("%s",TAB[k++].Property);
+	TAB[k].Property=GetProperty(data3);;
+	printf("%s\n",TAB[k++].Property);
 }
-fclose(File);
+
+
+//fclose(File);
 /*----------------------------*/
 printf("\n");
 /*-----------------------------------------------------*/
@@ -70,12 +69,11 @@ File = fopen("data2.csv","r");
 char data2[1024];
 while(fgets(data2,1024,File)){
 
-	char *set1;
-	//set1=GetValue(data2);
 	TAB[j].Value=GetValue(data2);
-	printf("%s\n",TAB[j++].Value);
+	printf("%s\n",TAB[j].Value);
+	j++;
 }
-fclose(File);
+//fclose(File);
  /*-----------------------------------------------*/
 printf("\n");
 /*------------------------------------------*/
@@ -84,25 +82,28 @@ char data[1024];
 while(fgets(data,1024,File)){
 
 	char *set;
-	//set=GetCalRational(data);
-	TAB[i].Semata_Rationale=GetCalRational(data);
-	printf("%s\n",TAB[i++].Semata_Rationale);
+	//set=(Table*)malloc(sizeof(data));
+	set=GetCalRational(data);
+	TAB[i].Semata_Rationale=set;
+	printf("%s\n",TAB[i].Semata_Rationale);
+	i++;
 }
-fclose(File);
+//fclose(File);
 
-//FileV2 = fopen("Newdata.csv","w+");
-int cnt;
-cnt=0;
 printf("i==%d\n",i);
-//if(cnt<i){
-	//fprintf(FileV2, "%s,%s,%s",TAB[cnt++].Property,TAB[cnt++].Value,TAB[cnt++].Semata_Rationale );
-	//printf("%s%s%s\n",TAB[0].Property, TAB[0].Value, TAB[0].Semata_Rationale);
-	printf("pro==%s\n",TAB[1].Value);
+	printf("pro==%s\n",TAB[0].Property);
+
+
+	fclose(File);
+	/* 0== ead
+	   1==ad
+	   2==NULL
+	   3==bread
 
 	//printf("cnt=%d\n",cnt);
 	//cnt++;
 //}
-//fclose(FileV2);
+//fclose(FileV2);*/
 
 
 /*FILE *fp;
